@@ -97,13 +97,15 @@ router.post(
   mw.logger,
   (req, res) => {
     const { id } = req.params;
-    Posts.insert(req.body)
-      .then((post) => {
-        res.status(201).json(post);
-      })
-      .catch((err) => {
-        res.status(500).json({ message: "error posting for that user" });
-      });
+    Users.getById(id).then((post) => {
+      Posts.insert(req.body)
+        .then((post) => {
+          res.status(201).json(post);
+        })
+        .catch((err) => {
+          res.status(500).json({ message: "error posting for that user" });
+        });
+    });
   }
 );
 
